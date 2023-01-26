@@ -63,7 +63,7 @@ const Navbar = () => {
                 <Link to="/dashboard">Dashboard</Link>
               </li>
               <li className="text-gray-600 hover:text-blue-600">
-                <Link to="javascript:void(0)">About US</Link>
+                <Link to="about">About US</Link>
               </li>
               <li className="text-gray-600 hover:text-blue-600">
                 <Link to="javascript:void(0)">Contact US</Link>

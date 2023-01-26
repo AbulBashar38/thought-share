@@ -3,7 +3,11 @@ import { Form, Formik, useField, useFormikContext } from "formik";
 
 import React, { useState } from "react";
 import ReactLoading from "react-loading";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
 import * as Yup from "yup";
+import { postThought } from "../redux/Thunk/thoughts/postThought";
+import { updateThought } from "../redux/Thunk/thoughts/updateThought";
 const TextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
@@ -49,8 +53,17 @@ const TextArea = ({ label, ...props }) => {
   );
 };
 
-const WriteThought = () => {
+const ThoughtForm = () => {
+  const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const thoughts = useSelector((state) => state.thoughts.thoughts);
+  const thought = thoughts.find((thought) => thought._id === id);
+
+  const updateBtn =
+    "bg-green-700 hover:bg-green-800 focus:bg-green-800 active:bg-blue-900";
+  const sendBtn =
+    "bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800";
   return (
     <div className="relative">
       {isLoading && (
@@ -63,7 +76,7 @@ const WriteThought = () => {
               width={100}
             />
             <h1 className="text-4xl text-black font-semibold pt-5">
-              Your Thought is posting
+              {`Your Thought is ${id ? "updating" : "posting"}`}
             </h1>
           </div>
         </div>
@@ -75,52 +88,40 @@ const WriteThought = () => {
         <div className="w-1/2">
           <Formik
             initialValues={{
-              authorName: "",
-              title: "",
-              headerImage: "",
-              thought: "",
-              date: new Date(),
-              tags: "",
+              authorName: `${thought ? thought.authorName : ""}`,
+              title: `${thought ? thought.title : ""}`,
+              headerImage: `${thought ? thought.headerImage : ""}`,
+              thought: `${thought ? thought.thought : ""}`,
+              date: `${thought ? thought.date : new Date()}`,
+              tags: `${thought ? thought.tags : ""}`,
             }}
             validationSchema={Yup.object({
               authorName: Yup.string().required("please give your name"),
               title: Yup.string().required("please give a title"),
-              // headerImage: Yup.string().required("please upload a image"),
+
               thought: Yup.string().required("You have to write your thought"),
               tags: Yup.string().required("please give some tags"),
             })}
             onSubmit={async (values, { resetForm }) => {
               setIsLoading(true);
-              const imgData = new FormData();
-              imgData.set("key", "68b6ff580c83ca61463a6d6da0adcd4d");
-              imgData.append("image", values.headerImage);
-              await axios
-                .post("https://api.imgbb.com/1/upload", imgData)
-                .then((res) => {
-                  const newFormData = {
-                    ...values,
-                    headerImage: res.data.data.display_url,
-                  };
-                  axios
-                    .post("http://localhost:5000/thought", {
-                      thought: newFormData,
-                    })
-                    .then((res) => {
-                      if (res.data.acknowledged) {
-                        resetForm({
-                          authorName: "",
-                          title: "",
-                          headerImage: "",
-                          thought: "",
-                          date: "",
-                          tags: "",
-                        });
-                        setIsLoading(false);
-                      }
-                    })
-                    .catch((err) => console.log(err));
-                })
-                .catch((err) => console.log(err));
+              if (id) {
+                dispatch(updateThought(id, values, setIsLoading));
+              } else {
+                const imgData = new FormData();
+                imgData.set("key", "68b6ff580c83ca61463a6d6da0adcd4d");
+                imgData.append("image", values.headerImage);
+                await axios
+                  .post("https://api.imgbb.com/1/upload", imgData)
+                  .then((res) => {
+                    const newFormData = {
+                      ...values,
+                      headerImage: res.data.data.display_url,
+                    };
+
+                    dispatch(postThought(newFormData, resetForm, setIsLoading));
+                  })
+                  .catch((err) => console.log(err));
+              }
             }}
           >
             <Form>
@@ -245,26 +246,11 @@ const WriteThought = () => {
                 </div>
                 <button
                   type="submit"
-                  className="
-      w-full
-      px-6
-      py-2.5
-      bg-blue-600
-      text-white
-      font-medium
-      text-xs
-      leading-tight
-      uppercase
-      rounded
-      shadow-md
-      hover:bg-blue-700 hover:shadow-lg
-      focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
-      active:bg-blue-800 active:shadow-lg
-      transition
-      duration-150
-      ease-in-out"
+                  className={`w-full px-6 py-2.5  text-white font-medium text-xs leading-tight uppercase rounded shadow-md  hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out ${
+                    id ? updateBtn : sendBtn
+                  }`}
                 >
-                  Send
+                  {id ? "Update" : "Send"}
                 </button>
               </div>
             </Form>
@@ -275,4 +261,4 @@ const WriteThought = () => {
   );
 };
 
-export default WriteThought;
+export default ThoughtForm;

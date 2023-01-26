@@ -1,7 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
+import ThoughtForm from "../component/ThoughtForm";
 import Dashboard from "../layout/Dashboard/Dashboard";
 import Main from "../layout/main/Main";
-import WriteThought from "../pages/Dashboard/WriteThought";
+import AllThought from "../pages/Dashboard/AllThought";
+import About from "../pages/Main/About";
 import Home from "../pages/Main/Home";
 
 const router = createBrowserRouter([
@@ -17,6 +19,10 @@ const router = createBrowserRouter([
         path: "home",
         element: <Home />,
       },
+      {
+        path: "about",
+        element: <About />,
+      },
     ],
   },
   {
@@ -24,12 +30,20 @@ const router = createBrowserRouter([
     element: <Dashboard />,
     children: [
       {
-        path: "dashboard",
-        element: <WriteThought />,
+        path: "/dashboard",
+        element: <ThoughtForm />,
       },
       {
         path: "writeThought",
-        element: <WriteThought />,
+        element: <ThoughtForm />,
+      },
+      {
+        path: "allThought",
+        element: <AllThought />,
+      },
+      {
+        path: "allThought/editThought/:id",
+        element: <ThoughtForm />,
       },
     ],
   },
