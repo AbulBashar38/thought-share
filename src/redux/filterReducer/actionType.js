@@ -1,2 +1,3 @@
 export const LATEST_THOUGHTS = "LATEST_THOUGHTS";
 export const OLDEST_THOUGHTS = "OLDEST_THOUGHTS";
+export const FILTER_TAG = "FILTER_TAG";

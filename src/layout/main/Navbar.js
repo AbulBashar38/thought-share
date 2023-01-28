@@ -66,7 +66,7 @@ const Navbar = () => {
                 <Link to="about">About US</Link>
               </li>
               <li className="text-gray-600 hover:text-blue-600">
-                <Link to="javascript:void(0)">Contact US</Link>
+                <Link to="history">Reading History</Link>
               </li>
             </ul>
           </div>

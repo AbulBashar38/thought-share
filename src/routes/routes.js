@@ -4,6 +4,7 @@ import Dashboard from "../layout/Dashboard/Dashboard";
 import Main from "../layout/main/Main";
 import AllThought from "../pages/Dashboard/AllThought";
 import About from "../pages/Main/About";
+import History from "../pages/Main/History";
 import Home from "../pages/Main/Home";
 
 const router = createBrowserRouter([
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "history",
+        element: <History />,
       },
     ],
   },

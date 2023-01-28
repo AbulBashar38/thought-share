@@ -1,4 +1,4 @@
-import { LATEST_THOUGHTS, OLDEST_THOUGHTS } from "./actionType";
+import { FILTER_TAG, LATEST_THOUGHTS, OLDEST_THOUGHTS } from "./actionType";
 
 export const filterLatest = () => {
   return {
@@ -9,4 +9,8 @@ export const filterOldest = () => {
   return {
     type: OLDEST_THOUGHTS,
   };
+};
+
+export const filterTag = (tag) => {
+  return { type: FILTER_TAG, payload: tag };
 };

@@ -1,8 +1,9 @@
-import { LATEST_THOUGHTS, OLDEST_THOUGHTS } from "./actionType";
+import { FILTER_TAG, LATEST_THOUGHTS, OLDEST_THOUGHTS } from "./actionType";
 
 const initialState = {
   latestThought: true,
   oldestThought: false,
+  tag: [],
 };
 
 const filterReducer = (state = initialState, action) => {
@@ -12,12 +13,19 @@ const filterReducer = (state = initialState, action) => {
         ...state,
         latestThought: true,
         oldestThought: false,
+        tag: [],
       };
     case OLDEST_THOUGHTS:
       return {
         ...state,
         oldestThought: true,
         latestThought: false,
+        tag: [],
+      };
+    case FILTER_TAG:
+      return {
+        ...state,
+        tag: [action.payload],
       };
     default:
       return state;

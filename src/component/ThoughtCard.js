@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { filterTag } from "../redux/filterReducer/action";
+import { addHistory } from "../redux/readingHistory/action";
 
 const ThoughtCard = (props) => {
   const { headerImage, title, thought, tags, date, authorName } = props.thought;
   const allTag = tags && tags.split(",");
   const [showMore, setShowMore] = useState(false);
+  const dispatch = useDispatch();
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg my-10">
       <img
@@ -18,7 +22,10 @@ const ThoughtCard = (props) => {
         </p>
         <button
           type="button"
-          onClick={() => setShowMore(!showMore)}
+          onClick={() => {
+            setShowMore(!showMore);
+            dispatch(addHistory(props.thought));
+          }}
           className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 mt-5"
         >
           {showMore ? "Show Less" : "Show More"}
@@ -29,7 +36,8 @@ const ThoughtCard = (props) => {
           allTag.map((tag) => (
             <span
               key={tag}
-              className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+              className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2 cursor-pointer"
+              onClick={() => dispatch(filterTag(tag))}
             >
               #{tag}
             </span>
