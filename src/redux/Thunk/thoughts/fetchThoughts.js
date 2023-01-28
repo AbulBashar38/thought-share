@@ -1,20 +1,15 @@
 import axios from "axios";
-import {
-  FETCH_ERROR,
-  FETCH_START,
-  FETCH_SUCCESS,
-  GET_THOUGHT,
-} from "./actionType";
+import { fetchError, fetchStart, fetchSuccess, getThought } from "./action";
 
 export const loadThoughts = () => {
   return async (dispatch) => {
-    await dispatch({ type: FETCH_START });
+    await dispatch(fetchStart());
     await axios
       .get("http://localhost:5000/thoughts")
       .then((res) => {
-        dispatch({ type: GET_THOUGHT, payload: res.data.data });
-        dispatch({ type: FETCH_SUCCESS });
+        dispatch(getThought(res.data.data));
+        dispatch(fetchSuccess());
       })
-      .catch((err) => dispatch({ type: FETCH_ERROR }));
+      .catch((err) => dispatch(fetchError()));
   };
 };
