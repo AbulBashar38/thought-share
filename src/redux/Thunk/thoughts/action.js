@@ -1,4 +1,5 @@
 import {
+  DELETE_THOUGHT,
   FETCH_ERROR,
   FETCH_START,
   FETCH_SUCCESS,
@@ -16,4 +17,7 @@ export const fetchSuccess = () => {
 };
 export const fetchError = () => {
   return { type: FETCH_ERROR };
+};
+export const deleteOneThought = (id) => {
+  return { type: DELETE_THOUGHT, payload: id };
 };

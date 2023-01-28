@@ -5,6 +5,7 @@ import {
   ADD_THOUGHT,
   GET_THOUGHT,
   UPDATE_THOUGHT,
+  DELETE_THOUGHT,
 } from "../Thunk/thoughts/actionType";
 
 const initialState = {
@@ -53,6 +54,11 @@ const thoughtReducer = (state = initialState, action) => {
         ...state,
         thoughts: newThoughts,
       };
+    case DELETE_THOUGHT:
+      const deleteThought = state.thoughts.filter(
+        (thought) => thought.Id !== action.payload
+      );
+      return { ...state, thoughts: deleteThought };
     default:
       return state;
   }

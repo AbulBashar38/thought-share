@@ -2,6 +2,7 @@ import React from "react";
 
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { deleteThought } from "../redux/Thunk/thoughts/deleteThought";
 
 const ThoughtTable = (props) => {
   const dispatch = useDispatch();
@@ -66,7 +67,10 @@ const ThoughtTable = (props) => {
                         >
                           Edit
                         </Link>
-                        <button className="font-medium text-red-600 dark:text-red-500 hover:underline">
+                        <button
+                          className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                          onClick={() => dispatch(deleteThought(thought._id))}
+                        >
                           Remove
                         </button>
                       </td>
