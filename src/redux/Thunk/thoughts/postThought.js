@@ -4,7 +4,7 @@ import { ADD_THOUGHT } from "./actionType";
 export const postThought = (newFormData, resetForm, setIsLoading) => {
   return async (dispatch) => {
     await axios
-      .post("http://localhost:5000/thought", {
+      .post("https://thought-share-server.onrender.com/thought", {
         thought: newFormData,
       })
       .then((res) => {

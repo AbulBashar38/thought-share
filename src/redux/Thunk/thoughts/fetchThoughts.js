@@ -5,7 +5,7 @@ export const loadThoughts = () => {
   return async (dispatch) => {
     await dispatch(fetchStart());
     await axios
-      .get("http://localhost:5000/thoughts")
+      .get("https://thought-share-server.onrender.com/thoughts")
       .then((res) => {
         dispatch(getThought(res.data.data));
         dispatch(fetchSuccess());

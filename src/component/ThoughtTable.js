@@ -52,7 +52,9 @@ const ThoughtTable = (props) => {
                     </th>
                     <td className="px-6 py-4">{thought.authorName}</td>
                     <td className="px-6 py-4">
-                      {new Date(thought.date).toLocaleDateString("en-us", {
+                      {new Date(
+                        props.action ? thought.date : new Date()
+                      ).toLocaleDateString("en-us", {
                         weekday: "long",
                         year: "numeric",
                         month: "short",
